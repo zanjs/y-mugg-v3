@@ -1,0 +1,24 @@
+{
+  "name": "y-mugg-v3",
+  "version": "3.0.0",
+  "description": "",
+  "main": "main.go",
+  "scripts": {
+    "build": "gox -os=\"linux\"",
+    "build64": "gox -osarch=\"linux/amd64\"",
+    "windows64": "gox -osarch=\"windows/amd64\"",
+    "windows32": "gox -osarch=\"windows/386\"",
+    "html": "go-bindata-assetfs html/...",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zanjs/y-mugg-v3.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zanjs/y-mugg-v3/issues"
+  },
+  "homepage": "https://github.com/zanjs/y-mugg-v3#readme"
+}
