@@ -10,14 +10,14 @@ import (
 )
 
 type (
-	// SaleServices is
-	SaleServices struct{}
+	// TransportServices is
+	TransportServices struct{}
 )
 
 // GetAll is
-func (sev SaleServices) GetAll(q models.QueryParams) ([]models.Sale, models.PageModel, error) {
+func (sev TransportServices) GetAll(q models.QueryParams) ([]models.Transport, models.PageModel, error) {
 	var (
-		datas []models.Sale
+		datas []models.Transport
 		page  models.PageModel
 		// queryParams models.QueryParams
 		err error
@@ -68,7 +68,7 @@ func (sev SaleServices) GetAll(q models.QueryParams) ([]models.Sale, models.Page
 }
 
 // Create is
-func (sev SaleServices) Create(m models.Sale) error {
+func (sev TransportServices) Create(m models.Transport) error {
 	var err error
 
 	m.CreatedAt = time.Now()
@@ -83,7 +83,7 @@ func (sev SaleServices) Create(m models.Sale) error {
 }
 
 // Delete is
-func (sev SaleServices) Delete(m models.Sale) error {
+func (sev TransportServices) Delete(m models.Transport) error {
 	var err error
 	tx := gorm.MysqlConn().Begin()
 	if err = tx.Delete(&m).Error; err != nil {
@@ -96,9 +96,9 @@ func (sev SaleServices) Delete(m models.Sale) error {
 }
 
 // WhereTime is
-func (sev SaleServices) WhereTime(q models.QueryParams) ([]models.Sale, error) {
+func (sev TransportServices) WhereTime(q models.QueryParams) ([]models.Transport, error) {
 	var (
-		datas []models.Sale
+		datas []models.Transport
 		err   error
 	)
 
@@ -117,9 +117,9 @@ func (sev SaleServices) WhereTime(q models.QueryParams) ([]models.Sale, error) {
 }
 
 // WhereDay is 周期平均值
-func (sev SaleServices) WhereDay(q models.QueryParams) ([]models.Sale, error) {
+func (sev TransportServices) WhereDay(q models.QueryParams) ([]models.Transport, error) {
 	var (
-		datas []models.Sale
+		datas []models.Transport
 		err   error
 	)
 
