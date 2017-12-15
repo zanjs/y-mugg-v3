@@ -15,14 +15,9 @@ import (
 // QMHTTPPostV2 is
 func QMHTTPPostV2(qmRequest models.QMRequest, inventory models.Inventory) {
 
-	// fmt.Println("qmRequest:", qmRequest)
 	url := qmRequest.URL
 
 	post := qmRequest.Body
-
-	// fmt.Println("post:? ", post)
-
-	// fmt.Println("URL:>", url)
 
 	var xmlStr = []byte(post)
 
@@ -36,28 +31,9 @@ func QMHTTPPostV2(qmRequest models.QMRequest, inventory models.Inventory) {
 	}
 	defer resp.Body.Close()
 
-	// fmt.Println("response Status:", resp.Status)
-	// fmt.Println("response Headers:", resp.Header)
 	body, _ := ioutil.ReadAll(resp.Body)
-	// fmt.Println("response Body:", string(body))
-	// boydStr := string(body)
 
 	qmResponse := models.QMResponse{}
-
-	// body2 := `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-	// <response>
-	// 	<flag>success</flag>
-	// 	<code>SUCCESS</code>
-	// 	<message>查询成功!</message>
-	// 	<items>
-	// 		<warehouseCode>B01</warehouseCode>
-	// 		<itemCode>1371937585362246455</itemCode>
-	// 		<itemId>1700046145</itemId>
-	// 		<inventoryType>CC</inventoryType>
-	// 		<quantity>3</quantity>
-	// 		<lockQuantity>0</lockQuantity>
-	// 	</items>
-	// </response>`
 
 	err = xml.Unmarshal([]byte(body), &qmResponse)
 	if err != nil {
@@ -72,13 +48,11 @@ func QMHTTPPostV2(qmRequest models.QMRequest, inventory models.Inventory) {
 
 	item := qmResponse.Items[0]
 
-	// fmt.Println("xml Response Items :", item)
 	fmt.Println("库存 Items :", item.Quantity)
 
 	fmt.Println("记录商品信息 Items :", inventory)
 
 	oldInventory, oErr := services.InventoryServices{}.GetByPId(inventory)
-	// oldInventory, oErr := models.GetInventoryByID(inventory.ID)
 
 	if oErr != nil {
 		fmt.Println("查询旧数据：err:", oErr)
@@ -105,6 +79,7 @@ func QMHTTPPostV2(qmRequest models.QMRequest, inventory models.Inventory) {
 		fmt.Println("不更新库存：", quantity)
 		return
 	}
+
 	oldInventory.Quantity = quantity
 	err = services.InventoryServices{}.Update(oldInventory)
 	// data := new(models.Inventory)
@@ -126,13 +101,7 @@ func QMHTTPPostV2(qmRequest models.QMRequest, inventory models.Inventory) {
 		salesCount = oldQuantity - quantity
 	}
 
-	newSales := new(models.Sale)
-
-	newSales.ProductID = inventory.ProductID
-	newSales.WareroomID = inventory.WareroomID
-	newSales.Quantity = salesCount
-
-	services.SaleServices{}.Create(*newSales)
+	ISSale(inventory.Product, inventory, salesCount)
 }
 
 // QMHTTPPost is

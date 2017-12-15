@@ -31,25 +31,25 @@ func (sev InventoryServices) GetAll(q models.QueryParams) ([]models.Inventory, m
 	if page.Offset == 0 {
 
 		if pID == 0 && wID == 0 {
-			err = tx.Preload("Wareroom").Preload("Product").Order("id desc").Limit(page.Limit).Find(&datas).Count(&page.Count).Error
+			err = tx.Preload("Wareroom").Preload("Product").Order("updated_at desc").Limit(page.Limit).Find(&datas).Count(&page.Count).Error
 		} else if pID != 0 && wID != 0 {
-			err = tx.Where("product_id = ? AND wareroom_id = ?", pID, wID).Preload("Wareroom").Preload("Product").Order("id desc").Limit(page.Limit).Find(&datas).Count(&page.Count).Error
+			err = tx.Where("product_id = ? AND wareroom_id = ?", pID, wID).Preload("Wareroom").Preload("Product").Order("updated_at desc").Limit(page.Limit).Find(&datas).Count(&page.Count).Error
 		} else if pID != 0 {
-			err = tx.Where("product_id = ?", pID).Preload("Wareroom").Preload("Product").Order("id desc").Limit(page.Limit).Find(&datas).Count(&page.Count).Error
+			err = tx.Where("product_id = ?", pID).Preload("Wareroom").Preload("Product").Order("updated_at desc").Limit(page.Limit).Find(&datas).Count(&page.Count).Error
 		} else if wID != 0 {
-			err = tx.Where("wareroom_id = ?", wID).Preload("Wareroom").Preload("Product").Order("id desc").Limit(page.Limit).Find(&datas).Count(&page.Count).Error
+			err = tx.Where("wareroom_id = ?", wID).Preload("Wareroom").Preload("Product").Order("updated_at desc").Limit(page.Limit).Find(&datas).Count(&page.Count).Error
 		}
 
 	} else {
 
 		if pID == 0 && wID == 0 {
-			err = tx.Preload("Wareroom").Preload("Product").Order("id desc").Limit(page.Limit).Find(&datas).Error
+			err = tx.Preload("Wareroom").Preload("Product").Order("updated_at desc").Limit(page.Limit).Find(&datas).Error
 		} else if pID != 0 && wID != 0 {
-			err = tx.Where("product_id = ? AND wareroom_id = ?", pID, wID).Preload("Wareroom").Preload("Product").Order("id desc").Limit(page.Limit).Find(&datas).Error
+			err = tx.Where("product_id = ? AND wareroom_id = ?", pID, wID).Preload("Wareroom").Preload("Product").Order("updated_at desc").Limit(page.Limit).Find(&datas).Error
 		} else if pID != 0 {
-			err = tx.Where("product_id = ?", pID).Preload("Wareroom").Preload("Product").Order("id desc").Limit(page.Limit).Find(&datas).Error
+			err = tx.Where("product_id = ?", pID).Preload("Wareroom").Preload("Product").Order("updated_at desc").Limit(page.Limit).Find(&datas).Error
 		} else if wID != 0 {
-			err = tx.Where("wareroom_id = ?", wID).Preload("Wareroom").Preload("Product").Order("id desc").Limit(page.Limit).Find(&datas).Error
+			err = tx.Where("wareroom_id = ?", wID).Preload("Wareroom").Preload("Product").Order("updated_at desc").Limit(page.Limit).Find(&datas).Error
 		}
 
 	}

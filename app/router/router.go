@@ -86,6 +86,9 @@ func InitRoute() {
 	v1.PUT("/inventorys/:id", controllers.WareroomController{}.Update)
 	v1.DELETE("/inventorys/:id", controllers.WareroomController{}.Delete)
 
+	// 库存
+	v1.GET("/transports", controllers.TransportController{}.GetAll)
+
 	// 销量记录
 	v1.GET("/sales", controllers.SaleController{}.GetAll)
 	// v1.POST("/sales", controllers.WareroomController{}.Create)

@@ -57,6 +57,8 @@ func (ctl JobController) SyncQnventory(c echo.Context) error {
 				var inventory models.Inventory
 				inventory.ProductID = product.ID
 				inventory.WareroomID = wareroom.ID
+				inventory.Product = product
+				inventory.Wareroom = wareroom
 
 				queues.QMHTTPPostV2(qmRequest, inventory)
 
