@@ -116,6 +116,27 @@ func (sev SaleServices) WhereTime(q models.QueryParams) ([]models.Sale, error) {
 	return datas, err
 }
 
+// WhereTimeLast is
+func (sev SaleServices) WhereTimeLast(q models.QueryParams) (models.Sale, error) {
+	var (
+		data models.Sale
+		err  error
+	)
+
+	queryTime := middleware.QueryStartEndTime(q)
+
+	tx := gorm.MysqlConn().Begin()
+	if err = tx.Order("id desc").Where("created_at BETWEEN ? AND ?", queryTime.StartTime, queryTime.EndTime).Where("wareroom_id = ? AND product_id = ?", q.WareroomID, q.ProductID).Find(&data).Error; err != nil {
+		tx.Rollback()
+		return data, err
+	}
+	tx.Commit()
+
+	fmt.Println("data:", data)
+
+	return data, err
+}
+
 // WhereDay is 周期平均值
 func (sev SaleServices) WhereDay(q models.QueryParams) ([]models.Sale, error) {
 	var (
