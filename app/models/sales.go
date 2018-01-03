@@ -13,8 +13,8 @@ type (
 		WareroomID int      `json:"wareroom_id"`
 		ProductID  int      `json:"product_id"`
 		Quantity   int      `json:"quantity"`
-		Product    Product  `json:"product"`
-		Wareroom   Wareroom `json:"wareroom"`
+		Product    Product  `json:"product,omitempty"`
+		Wareroom   Wareroom `json:"wareroom,omitempty"`
 	}
 
 	// SaleOnly is
