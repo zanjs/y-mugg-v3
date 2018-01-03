@@ -98,6 +98,7 @@ func InitRoute() {
 
 	// 库存销量统计
 	v1.GET("/statistics", controllers.SattisticsController{}.WhereTime)
+	v1.GET("/statistics_fe", controllers.SattisticsController{}.WhereTimeFEData)
 	// qm 库存销量更新
 	v1.GET("/records", controllers.AllRecordsPage)
 	v1.GET("/records/all", controllers.AllRecords)

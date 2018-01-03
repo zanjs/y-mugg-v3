@@ -16,6 +16,14 @@ type (
 		Product    Product  `json:"product"`
 		Wareroom   Wareroom `json:"wareroom"`
 	}
+
+	// SaleOnly is
+	SaleOnly struct {
+		BaseModel
+		WareroomID int `json:"wareroom_id"`
+		ProductID  int `json:"product_id"`
+		Quantity   int `json:"quantity"`
+	}
 )
 
 // GetSaleByID is

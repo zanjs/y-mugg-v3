@@ -48,7 +48,7 @@ func (ctl SaleController) GetAllWhereTime(c echo.Context) error {
 	)
 	queryparams = ctl.GetQueryParams(c)
 
-	sales, err = services.SaleServices{}.WhereTime(queryparams)
+	sales, err = services.SaleServices{}.WhereTimeAndID(queryparams)
 	if err != nil {
 		return ctl.ResponseError(c, http.StatusForbidden, err.Error())
 	}

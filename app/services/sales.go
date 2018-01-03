@@ -105,6 +105,27 @@ func (sev SaleServices) WhereTime(q models.QueryParams) ([]models.Sale, error) {
 	queryTime := middleware.QueryStartEndTime(q)
 
 	tx := gorm.MysqlConn().Begin()
+	if err = tx.Order("id desc").Where("created_at BETWEEN ? AND ?", queryTime.StartTime, queryTime.EndTime).Find(&datas).Error; err != nil {
+		tx.Rollback()
+		return datas, err
+	}
+	tx.Commit()
+
+	fmt.Println("datas:", datas)
+
+	return datas, err
+}
+
+// WhereTimeAndID is
+func (sev SaleServices) WhereTimeAndID(q models.QueryParams) ([]models.Sale, error) {
+	var (
+		datas []models.Sale
+		err   error
+	)
+
+	queryTime := middleware.QueryStartEndTime(q)
+
+	tx := gorm.MysqlConn().Begin()
 	if err = tx.Order("id desc").Where("created_at BETWEEN ? AND ?", queryTime.StartTime, queryTime.EndTime).Where("wareroom_id = ? AND product_id = ?", q.WareroomID, q.ProductID).Find(&datas).Error; err != nil {
 		tx.Rollback()
 		return datas, err

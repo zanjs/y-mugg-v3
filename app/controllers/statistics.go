@@ -71,7 +71,7 @@ func (ctl SattisticsController) WhereTime(c echo.Context) error {
 
 			inventory, err = services.InventoryServices{}.GetByPId(inventory)
 
-			sales, err = services.SaleServices{}.WhereTime(qyps)
+			sales, err = services.SaleServices{}.WhereTimeAndID(qyps)
 			salesDay, err = services.SaleServices{}.WhereDay(qyps)
 
 			if err != nil {
@@ -112,6 +112,44 @@ func (ctl SattisticsController) WhereTime(c echo.Context) error {
 	dataAll := echo.Map{
 		"warerooms": warerooms,
 		"products":  SattisticsProducts,
+	}
+	return ctl.ResponseSuccess(c, dataAll)
+}
+
+// WhereTimeFEData is time query
+func (ctl SattisticsController) WhereTimeFEData(c echo.Context) error {
+	var (
+		products    []models.Product
+		warerooms   []models.Wareroom
+		sales       []models.Sale
+		queryparams models.QueryParams
+		err         error
+	)
+
+	queryparams = ctl.GetQueryParams(c)
+
+	fmt.Println(queryparams)
+
+	products, err = models.GetProducts()
+	if err != nil {
+		return ctl.ResponseError(c, http.StatusForbidden, err.Error())
+	}
+
+	warerooms, err = models.GetWarerooms()
+	if err != nil {
+		return ctl.ResponseError(c, http.StatusForbidden, err.Error())
+	}
+
+	sales, err = services.SaleServices{}.WhereTime(queryparams)
+
+	if err != nil {
+		return ctl.ResponseError(c, http.StatusForbidden, err.Error())
+	}
+
+	dataAll := echo.Map{
+		"warerooms": warerooms,
+		"products":  products,
+		"sales":     sales,
 	}
 	return ctl.ResponseSuccess(c, dataAll)
 }
