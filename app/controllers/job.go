@@ -8,6 +8,7 @@ import (
 	"github.com/zanjs/y-mugg-v3/app/models"
 	"github.com/zanjs/y-mugg-v3/app/queues"
 	"github.com/zanjs/y-mugg-v3/app/utils"
+	"github.com/zanjs/y-mugg-v3/config"
 )
 
 // JobController is
@@ -31,6 +32,10 @@ func (ctl JobController) SyncQnventory(c echo.Context) error {
 		return c.JSON(http.StatusForbidden, err)
 	}
 
+	var Config = config.Config
+
+	var qm = Config.QM
+
 	go func() {
 
 		for _, v := range data.Warerooms {
@@ -48,7 +53,7 @@ func (ctl JobController) SyncQnventory(c echo.Context) error {
 				var qmProduct models.QMProduct
 				qmProduct.ItemCode = product.ExternalCode
 				qmProduct.WarehouseCode = wareroom.Numbering
-				qmProduct.OwnerCode = "bkyy"
+				qmProduct.OwnerCode = qm.OwnerCode
 				qmProduct.InventoryType = "ZP"
 
 				var qmRequest models.QMRequest
@@ -87,6 +92,10 @@ func (ctl JobController) SyncQnventoryV1(c echo.Context) error {
 		return c.JSON(http.StatusForbidden, err)
 	}
 
+	var Config = config.Config
+
+	var qm = Config.QM
+
 	go func() {
 
 		for _, v := range data.Warerooms {
@@ -104,7 +113,7 @@ func (ctl JobController) SyncQnventoryV1(c echo.Context) error {
 				var qmProduct models.QMProduct
 				qmProduct.ItemCode = product.ExternalCode
 				qmProduct.WarehouseCode = wareroom.Numbering
-				qmProduct.OwnerCode = "bkyy"
+				qmProduct.OwnerCode = qm.OwnerCode
 				qmProduct.InventoryType = "ZP"
 
 				var qmRequest models.QMRequest
